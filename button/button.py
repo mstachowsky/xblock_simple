@@ -93,12 +93,25 @@ class ButtonXBlock(XBlock):
         The instructor view of the ButtonXBlock, allowing them to edit
         the problem description and rubric.
         """
-        html = self.resource_string("static/html/studio_view.html")
+        html = self.resource_string("static/html/student_view.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/button.css"))
         frag.add_javascript(self.resource_string("static/js/src/button.js"))
         frag.initialize_js('ButtonXBlock')
         return frag
+        
+    # Studio view
+    def studio_view(self, context=None):
+        """
+        The instructor view of the ButtonXBlock, allowing them to edit
+        the problem description and rubric.
+        """
+        html = self.resource_string("static/html/studio_view.html")
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/button.css"))
+        frag.add_javascript(self.resource_string("static/js/src/button.js"))
+        frag.initialize_js('ButtonXBlock')
+        return frag    
 
     @XBlock.json_handler
     def save_problem_and_rubric(self, data, suffix=''):
