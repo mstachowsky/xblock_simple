@@ -5,7 +5,11 @@ from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 from xblock.fields import Integer, Scope, String
 from xblock.runtime import Runtime
-from evaluate_api import *
+
+import os
+import requests
+import json
+import traceback
 
 class ButtonXBlock(XBlock):
     """
@@ -41,6 +45,35 @@ class ButtonXBlock(XBlock):
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         return files(__package__).joinpath(path).read_text(encoding="utf-8")
+
+    def phi_moe_api_text_text_endpoint(self,document_text: str, prompt_text: str, max_length: int) -> str:
+        """
+        Sends a request to the API endpoint and returns the response.
+
+        Args:
+        document_text (str): The document text to be processed.
+        prompt_text (str): The prompt text to be used for processing.
+        max_length (int): Maximum length of the generated text.
+
+        Returns:
+        str: The generated text from the API.
+        """
+        print("Hey, we're here")
+        url = "http://ece-nebula16.eng.uwaterloo.ca:8000/generate"
+        headers = {"Content-Type": "application/json"}
+        data = {
+        "prompt": f"{prompt_text}\n{document_text}",
+        "max_length": max_length
+        }
+        
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        
+        # Parse the JSON response
+        response_json = response.json()['response']
+        #generated_text = response_json.get("response", "").strip()
+
+        return response_json
 
     def student_view(self, context=None):
         """
@@ -92,14 +125,15 @@ class ButtonXBlock(XBlock):
         # Call your evaluation function here
         # For example: result = evaluate_function(problem, rubric, answer)
         system = f"You are evaluating a student's answer to the question {problem}. Your evaluation criteria are: {rubric}. The student answer is: "
-        evaluation = text_text_eval(answer, system,model='phi',max_length=256)
+        print("We are evaluating")
+        evaluation = self.phi_moe_api_text_text_endpoint(answer,system,max_length=256)#text_text_eval(answer, system,model='phi',max_length=256)
         
         #publish the score
         #if "meets expectation" in evaluation:
-        	#self.runtime.publish(self,"grade",{value:1.0, max_value: 1.0})
+            #self.runtime.publish(self,"grade",{value:1.0, max_value: 1.0})
         #else:
-        	#self.runtime.publish(self,"grade",{value:0.0,max_value: 1.0})
-	
+            #self.runtime.publish(self,"grade",{value:0.0,max_value: 1.0})
+    
         return {"problem": problem, "rubric": rubric, "answer": answer,"evaluation": evaluation}
 
     @staticmethod
