@@ -1,0 +1,2 @@
+[xblock.v1]
+button = button:ButtonXBlock

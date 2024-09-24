@@ -1,0 +1,9 @@
+/* CSS for ButtonXBlock */
+
+.button_block .count {
+    font-weight: bold;
+}
+
+.button_block p {
+    cursor: pointer;
+}

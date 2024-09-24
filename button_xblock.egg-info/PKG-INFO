@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: button-xblock
+Version: 0.1
+Summary: button XBlock
+License: UNKNOWN
+Requires-Dist: XBlock
