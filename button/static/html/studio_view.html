@@ -2,9 +2,22 @@
     <p>Edit Problem Description:</p>
     <textarea id="problem-description" rows="4" cols="50">{self.problem_description}</textarea>
 
-    <p>Edit Rubric:</p>
-    <textarea id="rubric" rows="4" cols="50">{self.rubric}</textarea>
-
+    <p>Edit Rubric Sections:</p>
+    <div id="rubric-sections">
+        <!-- Initial rubric sections -->
+        <div class="rubric-section">
+            <label>Meets Expectations:</label>
+            <input type="text" class="rubric-label" value="Meets Expectations">
+            <textarea class="rubric-option" rows="2" cols="50">Enter rubric text</textarea>
+        </div>
+        <div class="rubric-section">
+            <label>Does Not Meet Expectations:</label>
+            <input type="text" class="rubric-label" value="Does Not Meet Expectations">
+            <textarea class="rubric-option" rows="2" cols="50">Enter rubric text</textarea>
+        </div>
+    </div>
+    
+    <button id="add-section-button">Add Section</button>
     <button id="save-button">Save</button>
 </div>
 

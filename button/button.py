@@ -119,8 +119,20 @@ class ButtonXBlock(XBlock):
         Save the problem description and rubric from the instructor.
         """
         self.problem_description = data.get('problem_description', '')
-        self.rubric = data.get('rubric', '')
-        return {"problem_description": self.problem_description, "rubric": self.rubric}
+
+        # Prefix and postfix text that you will add to the rubric
+        prefix_text = "Rubric Overview:\n"
+        postfix_text = "\nEnd of Rubric"
+
+        # Combine the prefix, rubric, and postfix
+        rubric_options = data.get('rubric', '')
+        self.rubric = prefix_text + rubric_options + postfix_text
+
+        return {
+        "problem_description": self.problem_description,
+        "rubric": self.rubric
+        }
+
      
 
     @XBlock.json_handler
