@@ -65,7 +65,7 @@ class ButtonXBlock(XBlock):
         # Store the rubric as JSON
         rubric_sections = data.get('rubric_sections', [])
         self.rubric = json.dumps(rubric_sections)
-    print(self.rubric)
+        print(self.rubric)
         return {
             "problem_description": self.problem_description,
             "rubric": self.rubric
